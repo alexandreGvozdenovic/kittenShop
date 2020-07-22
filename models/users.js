@@ -12,6 +12,8 @@ var userSchema = mongoose.Schema({
     lastName: String,
     email: String,
     password: String,
+    token: String,
+    salt: String,
     orders: [kittensSchema],
   });
   
