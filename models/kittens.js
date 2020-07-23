@@ -5,6 +5,7 @@ var kittensSchema = mongoose.Schema({
     age: String,
     available: Boolean,
     price: Number,
+    imgUrl: String,
   });
   
   var kittensModel = mongoose.model('kittens', kittensSchema);
