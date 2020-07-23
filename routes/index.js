@@ -27,6 +27,12 @@ router.post('/sign-up', async function(req, res, next) {
   var saveUser = null
   var token = null
 
+  var regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
+  var emailFormat = req.body.emailFromFront.match(regex);
+
+  if(emailFormat == null) {
+    error.push('veuillez rentrer un email correct')
+  }
   const data = await userModel.findOne({
     email: req.body.emailFromFront
   })
@@ -36,7 +42,8 @@ router.post('/sign-up', async function(req, res, next) {
     error.push('utilisateur déjà présent')
   }
   // ARE ALL THE INFORMATION REQUIRED PRESENT ?
-  if(req.body.usernameFromFront == ''
+  if(req.body.firstNameFromFront == ''
+  || req.body.lastNameFromFront == ''
   || req.body.emailFromFront == ''
   || req.body.passwordFromFront == ''
   ){
@@ -64,6 +71,52 @@ router.post('/sign-up', async function(req, res, next) {
   }
 
   res.json({result, saveUser, error, token})
+  
+})
+
+// SIGN IN
+router.post('/sign-in', async function(req, res, next) {
+
+  console.log(req.body);
+  var error = []
+  var result = false
+  var user = null
+  var token = null
+  
+  var regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
+  var emailFormat = req.body.emailFromFront.match(regex);
+
+  if(emailFormat == null) {
+    error.push('veuillez rentrer un email correct')
+  }
+  const data = await userModel.findOne({
+    email: req.body.emailFromFront
+  })
+  // ERROR HANDLERS :
+  // ARE ALL THE INFORMATION REQUIRED PRESENT ?
+  if(req.body.emailFromFront == '' || req.body.passwordFromFront == '') {
+    error.push('champs vides')
+  }
+
+  // IF THERE'S NO ERROR WE SEARCH FOR THE USER
+  if(error.length == 0){
+    user = await userModel.findOne({
+      email: req.body.emailFromFront
+    })
+    // IF USER EXIST WE TRY TO COMPARE BOTH PASSWORD ENCRYPTED
+    if(user) {
+      const passwordEncrypt = SHA256(req.body.passwordFromFront + user.salt).toString(encBase64)
+      if(passwordEncrypt == user.password) {
+        result = true;
+        token = user.token;
+      } else {
+        error.push('wrong email or password');
+      }
+    } else {
+      error.push('wrong email or password');
+    }
+  }
+  res.json({result, user, error, token})
   
 })
 
