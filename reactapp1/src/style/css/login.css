@@ -1,0 +1,11 @@
+.main-container {
+    height: 100vh;
+}
+
+.main-row {
+    width: 100%;
+}
+.error-row {
+    padding-top: 32px;
+    color: red;
+}
