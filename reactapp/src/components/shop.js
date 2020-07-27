@@ -1,46 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 import Nav from './navbar';
 import Card from './card'
 
-function Shop() {
-    const dataKitty = [
-        {
-            name: 'Kitty 1',
-            age: '6 months',
-            available: true,
-            price: 200,
-            imgUrl: './kittens/cat_4.jpg'
-        },
-        {
-            name: 'Kitty 2',
-            age: '5 months',
-            available: true,
-            price: 250,
-            imgUrl: './kittens/cat_5.jpg'
-        },
-        {
-            name: 'Kitty 3',
-            age: '7 months',
-            available: true,
-            price: 100,
-            imgUrl: './kittens/cat_7.jpg'
-        },
-        {
-            name: 'Kitty 4',
-            age: '4 months',
-            available: true,
-            price: 150,
-            imgUrl: './kittens/cat_8.jpg'
-        },
-    ]
+function Shop(props) {
 
-    var cardsKitty = dataKitty.map((kitty,i) => {
+    const [kittenArray, setKittenArray] = useState([]);
+    useEffect(() => {
+        var loadKittens = async () => {
+            const data = await fetch('/load-kittens');
+            const body = await data.json()
+            setKittenArray(body.kittens);
+        }
+        loadKittens();
+    }, [])
+
+    var cardsKitty = kittenArray.map((kitty,i) => {
         return(
             <Col xs={6} key={i}>
                 <Card 
+                    kittyId={kitty._id}
                     kittyName={kitty.name} 
-                    kittyAge={kitty.age} 
+                    kittyAge={kitty.age}
                     kittyAvailable={kitty.available} 
                     kittyPrice={kitty.price}
                     kittyImg={kitty.imgUrl}
@@ -48,15 +31,25 @@ function Shop() {
             </Col>
         )
     })
+
+    if(props.tokenFromStore === '') {
+        return(<Redirect to='/' />)
+    }
   return (
       <Container>
           <Nav />
           <Row>
               {cardsKitty}
           </Row>
-          
       </Container>
   );
 }
 
-export default Shop;
+function mapStateToProps(state) {
+    return { tokenFromStore: state.token }
+  }
+  
+  export default connect(
+      mapStateToProps,
+      null
+  )(Shop);

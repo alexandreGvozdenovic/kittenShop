@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom'
 import { Container, Row, Col, Form,  Button } from 'react-bootstrap';
 import '../style/css/login.css'
-function Login() {
+import { connect } from 'react-redux'
+function Login(props) {
     
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -23,6 +24,7 @@ function Login() {
         const body = await data.json()
         console.log(body);
         if(body.result === true) {
+            await props.addToken(body.token)
             setUserExists(true)
         }
         if(body.error.length > 0) {
@@ -42,8 +44,11 @@ function Login() {
             body: `emailFromFront=${signInEmail}&passwordFromFront=${signInPassword}`
         })
         const body = await data.json()
+        console.log(body);
         if(body.result === true) {
+            await props.addToken(body.token)
             setUserExists(true)
+            
         }
         if(body.error.length > 0) {
             var concatErrors = 'Liste des erreurs : '
@@ -145,4 +150,15 @@ function Login() {
   );
 }
 
-export default Login;
+function mapDispatchToProps(dispatch) {
+    return {
+      addToken: async function(tokenFromLogin) { 
+          dispatch( {type: 'addToken',token: tokenFromLogin} ) 
+      }
+    }
+  }
+  
+  export default connect(
+      null,
+      mapDispatchToProps
+  )(Login);

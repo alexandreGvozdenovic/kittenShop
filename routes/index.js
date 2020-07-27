@@ -8,13 +8,6 @@ var encBase64 = require('crypto-js/enc-base64');
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
-  // var newKitten = new kittensModel ({
-  //   name: 'Cheddar',
-  //   age: '8 months',
-  //   available: true,
-  //   price: 200,
-  // })
-  // await newKitten.save()
   res.render('index', { title: 'Express' });
 });
 
@@ -118,6 +111,13 @@ router.post('/sign-in', async function(req, res, next) {
   }
   res.json({result, user, error, token})
   
+})
+
+// GET KITTENS FROM DB
+
+router.get('/load-kittens', async function(req,res,next){
+  var kittens = await kittensModel.find();
+  res.json({kittens})
 })
 
 module.exports = router;
