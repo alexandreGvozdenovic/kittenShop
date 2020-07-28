@@ -2,15 +2,39 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Table, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { loadStripe } from '@stripe/stripe-js';
 import Nav from './navbar';
 import '../style/css/basket.css'
+const stripePromise = loadStripe('pk_test_SxRbDOfbYdtVZE3lyuDPbqJT00BRRUnLAK');
+
 
 function Basket(props) {
   var sumPrice = 0;
   console.log(props.kittensFromStore);
+
   const handleClick = (id,price) => {
     props.removeKitty(id);
   }
+
+  const handleCheckout = async (e) => {
+    e.preventDefault();
+    let kittens = JSON.stringify(props.kittensFromStore);
+    const data = await fetch('/buy',{
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: `kittensFromFront=${kittens}`
+  })
+  const body = await data.json()
+  console.log(body);
+  const { sessionId } = body.id
+  const stripe = await stripePromise;
+  const { error } = await stripe.redirectToCheckout({
+    sessionId,
+  });
+  // If `redirectToCheckout` fails due to a browser or network
+  // error, display the localized error message to your customer
+  // using `error.message`.
+  } 
   var kittyBasket = props.kittensFromStore.map((kitty,i) => {
     sumPrice += kitty.price;
     return(
@@ -49,7 +73,7 @@ console.log(sumPrice);
               </tbody>
             </Table>
           </Row>
-          <Row className='justify-content-end align-items-center'> Total Price: {sumPrice}€ <Button>Checkout</Button></Row>
+          <Row className='justify-content-end align-items-center'> Total Price: {sumPrice}€ <Button onClick={(e) => handleCheckout(e)}>Checkout</Button></Row>
       </Container>
   );
 }

@@ -5,6 +5,8 @@ var userModel = require('../models/users');
 var uid2 = require('uid2');
 var SHA256 = require('crypto-js/sha256');
 var encBase64 = require('crypto-js/enc-base64');
+const stripe = require('stripe')('sk_test_Rdz8xdBt5njp17ENWCDDTjxh005LCMv9UB');
+
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
@@ -118,6 +120,35 @@ router.post('/sign-in', async function(req, res, next) {
 router.get('/load-kittens', async function(req,res,next){
   var kittens = await kittensModel.find();
   res.json({kittens})
+})
+// CREATE SESSION ID
+
+router.post('/buy', async function(req,res,next){
+
+  var kittens = JSON.parse(req.body.kittensFromFront);
+  console.log(kittens);
+  var stripeItems = kittens.map((kitty) => {
+    return({
+      price_data: {
+        currency: 'eur',
+        product_data: {
+          name: kitty.name,
+        },
+        unit_amount: kitty.price,
+      },
+      quantity: 1,
+    })
+  })
+  console.log(stripeItems);
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: stripeItems,
+    mode: 'payment',
+    success_url: 'https://example.com/success?session_id={CHECKOUT_SESSION_ID}',
+    cancel_url: 'https://example.com/cancel',
+  });
+
+  res.json(session);
 })
 
 module.exports = router;

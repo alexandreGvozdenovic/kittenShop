@@ -1,8 +1,9 @@
 import React from 'react';
 import { Navbar, Nav} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-function NavBar() {
+function NavBar(props) {
   return (
     <Navbar expand='lg'>
     <Navbar.Brand >
@@ -19,7 +20,7 @@ function NavBar() {
         <Link to='/shop'>Shop</Link>
       </Nav.Item>
       <Nav.Item>
-        <Link to='/basket'>Panier</Link>
+        <Link to='/basket'>Panier{props.kittenFromStore.length > 0 ? '(' + props.kittenFromStore.length + ')' : ''  }</Link>
       </Nav.Item>
       {/* <Nav.Item>
         <Link>History</Link>
@@ -30,4 +31,11 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+function mapStateToProps(state) {
+  return { kittenFromStore: state.basket }
+}
+
+export default connect(
+    mapStateToProps,
+    null
+)(NavBar);
