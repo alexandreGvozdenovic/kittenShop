@@ -126,7 +126,6 @@ router.get('/load-kittens', async function(req,res,next){
 router.post('/buy', async function(req,res,next){
 
   var kittens = JSON.parse(req.body.kittensFromFront);
-  console.log(kittens);
   var stripeItems = kittens.map((kitty) => {
     return({
       price_data: {
@@ -134,20 +133,19 @@ router.post('/buy', async function(req,res,next){
         product_data: {
           name: kitty.name,
         },
-        unit_amount: kitty.price,
+        unit_amount: kitty.price*100,
       },
       quantity: 1,
     })
   })
-  console.log(stripeItems);
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items: stripeItems,
     mode: 'payment',
-    success_url: 'https://example.com/success?session_id={CHECKOUT_SESSION_ID}',
-    cancel_url: 'https://example.com/cancel',
+    success_url: 'http://localhost:3001/success?session_id={CHECKOUT_SESSION_ID}',
+    cancel_url: 'http://localhost:3001/cancel',
   });
-
+  console.log(session);
   res.json(session);
 })
 

@@ -26,10 +26,10 @@ function Basket(props) {
   })
   const body = await data.json()
   console.log(body);
-  const { sessionId } = body.id
+  console.log('Session ID ===>')
   const stripe = await stripePromise;
   const { error } = await stripe.redirectToCheckout({
-    sessionId,
+    sessionId : body.id,
   });
   // If `redirectToCheckout` fails due to a browser or network
   // error, display the localized error message to your customer

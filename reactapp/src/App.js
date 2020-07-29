@@ -5,6 +5,8 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Login from './components/login';
 import Shop from './components/shop';
 import Basket from './components/basket';
+import Success from './components/success';
+import Cancel from './components/cancel';
 // Redux
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
@@ -21,6 +23,8 @@ function App() {
           <Route path='/' exact component={Login} />
           <Route path='/shop' component={Shop} />
           <Route path='/basket' component={Basket} />
+          <Route path='/success' component={Success} />
+          <Route path='/cancel' component={Cancel} />
         </Switch>
       </Router>
     </Provider>
