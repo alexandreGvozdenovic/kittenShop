@@ -147,7 +147,7 @@ router.post('/buy', async function(req,res,next){
 })
 
 // Add order to History
-router.post('/stripe-success', async function(req,res,next){
+router.post('/success', async function(req,res,next){
   const basket = JSON.parse(req.body.basketFromFront);
   var user = await userModel.findOne({token: req.body.tokenFromFront});
   for(let i = 0 ; i < basket.length ; i++) {
