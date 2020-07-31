@@ -5,7 +5,6 @@ var userModel = require('../models/users');
 var uid2 = require('uid2');
 var SHA256 = require('crypto-js/sha256');
 var encBase64 = require('crypto-js/enc-base64');
-const { use } = require('../../../../LaCapsule/lacapsule/project/bikeshop/part5/bikeshop/routes');
 const stripe = require('stripe')('sk_test_Rdz8xdBt5njp17ENWCDDTjxh005LCMv9UB');
 
 
