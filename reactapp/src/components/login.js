@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 import { Container, Row, Col, Form,  Button } from 'react-bootstrap';
 import '../style/css/login.css'
 import { connect } from 'react-redux'
-function Login(props) {
+function Login() {
     
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -13,6 +13,7 @@ function Login(props) {
     const [signInPassword, setSignInPassword] = useState('');
     const [userExists, setUserExists] = useState(false);
     const [errors, setErrors] = useState('')
+    const emptyBasket = [];
     const handleSignUp = async (e) => {
         e.preventDefault();
         const data = await fetch('/sign-up',{
@@ -23,8 +24,8 @@ function Login(props) {
         const body = await data.json()
         console.log(body);
         if(body.result === true) {
-            await props.addToken(body.token)
             localStorage.setItem('token',body.token);
+            localStorage.setItem('basket',JSON.stringify(emptyBasket));
             setUserExists(true)
         }
         if(body.error.length > 0) {
@@ -46,8 +47,8 @@ function Login(props) {
         const body = await data.json()
         console.log(body);
         if(body.result === true) {
-            await props.addToken(body.token)
             localStorage.setItem('token',body.token);
+            localStorage.setItem('basket',JSON.stringify(emptyBasket));
             setUserExists(true)
             
         }
@@ -151,15 +152,4 @@ function Login(props) {
   );
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-      addToken: async function(tokenFromLogin) { 
-          dispatch( {type: 'addToken',token: tokenFromLogin} ) 
-      }
-    }
-  }
-  
-  export default connect(
-      null,
-      mapDispatchToProps
-  )(Login);
+export default Login;

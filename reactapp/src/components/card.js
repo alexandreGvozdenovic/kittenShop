@@ -13,7 +13,15 @@ function CardComponent(props) {
       name: props.kittyName,
       price: props.kittyPrice
     }
+    // Add kitty in REDUX STORE
     props.addKitty(kitty);
+    // Add kitty in Local Storage
+    var localStorageBasket = JSON.parse(localStorage.getItem('basket'));
+    var index = localStorageBasket.findIndex( element => element.id === kitty.id);
+    if(index === -1){
+      localStorageBasket.push(kitty);
+      localStorage.setItem('basket',JSON.stringify(localStorageBasket));
+    }
   }
   return (
     

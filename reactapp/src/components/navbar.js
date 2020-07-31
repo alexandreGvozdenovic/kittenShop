@@ -4,6 +4,12 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 function NavBar(props) {
+  const localStorageBasket = JSON.parse(localStorage.getItem('basket'));
+  console.log(localStorageBasket);
+  console.log(props.kittenFromStore);
+  if(localStorageBasket.length > props.kittenFromStore.length) {
+    props.updateBasket(localStorageBasket);
+  }
   return (
     <Navbar expand='lg'>
     <Navbar.Brand >
@@ -35,7 +41,15 @@ function mapStateToProps(state) {
   return { kittenFromStore: state.basket }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    updateBasket: function(basketFromLocalStorage) { 
+        dispatch( {type: 'updateFromLocalStorage', basket: basketFromLocalStorage} ) 
+    }
+  }
+}
+
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps,
 )(NavBar);

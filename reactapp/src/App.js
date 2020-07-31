@@ -11,9 +11,8 @@ import Logout from './components/logout';
 // Redux
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
-import token from './reducers/token.reducer'
 import basket from './reducers/basket.reducer'
-const store = createStore(combineReducers({token, basket}))
+const store = createStore(combineReducers({basket}))
 
 
 function App() {

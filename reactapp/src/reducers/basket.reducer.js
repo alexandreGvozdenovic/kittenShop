@@ -17,7 +17,9 @@ export default function(basket = [], action) {
       index = basket.findIndex( element => element.id === action.kittyId);
       basketCopy.splice(index,1);
       return basketCopy
-    } 
+    } else if(action.type === 'updateFromLocalStorage') {
+      return action.basket
+    }
     else {
       return basket;
     }

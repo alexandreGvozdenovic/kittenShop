@@ -10,11 +10,18 @@ const stripePromise = loadStripe('pk_test_SxRbDOfbYdtVZE3lyuDPbqJT00BRRUnLAK');
 
 function Basket(props) {
   const token = localStorage.getItem('token');
+  const basket = JSON.parse(localStorage.getItem('basket'));
   var sumPrice = 0;
   console.log(props.kittensFromStore);
 
-  const handleClick = (id,price) => {
+  const handleClick = (id) => {
+    // Remove kitty from Redux Store
     props.removeKitty(id);
+    // Remove kitty from local Storage
+    let basketCopy = [...basket];
+    let index = basket.findIndex( element => element.id === id);
+    basketCopy.splice(index,1);
+    localStorage.setItem('basket',JSON.stringify(basketCopy));
   }
 
   const handleCheckout = async (e) => {
@@ -80,10 +87,7 @@ console.log(sumPrice);
 }
 
 function mapStateToProps(state) {
-    return { 
-      tokenFromStore: state.token,
-      kittensFromStore: state.basket
-    }
+    return { kittensFromStore: state.basket }
   }
 
 function mapDispatchToProps(dispatch) {

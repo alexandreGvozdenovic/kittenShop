@@ -10,6 +10,8 @@ function Shop(props) {
     const [kittenArray, setKittenArray] = useState([]);
     const token = localStorage.getItem('token');
     console.log(token);
+    const localStorageBasket = JSON.parse(localStorage.getItem('basket'));
+    console.log(localStorageBasket);
     useEffect(() => {
         var loadKittens = async () => {
             const data = await fetch('/load-kittens');
@@ -47,11 +49,4 @@ function Shop(props) {
   );
 }
 
-function mapStateToProps(state) {
-    return { tokenFromStore: state.token }
-  }
-  
-  export default connect(
-      mapStateToProps,
-      null
-  )(Shop);
+export default Shop;
