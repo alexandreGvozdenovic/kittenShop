@@ -22,9 +22,9 @@ function NavBar(props) {
       <Nav.Item>
         <Link to='/basket'>Panier{props.kittenFromStore.length > 0 ? '(' + props.kittenFromStore.length + ')' : ''  }</Link>
       </Nav.Item>
-      {/* <Nav.Item>
-        <Link>History</Link>
-      </Nav.Item> */}
+      <Nav.Item>
+        <Link to='/logout'>Logout</Link>
+      </Nav.Item>
     </Nav>
     </Navbar.Collapse>
   </Navbar>

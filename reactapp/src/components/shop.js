@@ -8,6 +8,8 @@ import Card from './card'
 function Shop(props) {
 
     const [kittenArray, setKittenArray] = useState([]);
+    const token = localStorage.getItem('token');
+    console.log(token);
     useEffect(() => {
         var loadKittens = async () => {
             const data = await fetch('/load-kittens');
@@ -32,7 +34,7 @@ function Shop(props) {
         )
     })
 
-    if(props.tokenFromStore === '') {
+    if(token === '' || token === null) {
         return(<Redirect to='/' />)
     }
   return (

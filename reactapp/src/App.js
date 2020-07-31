@@ -7,6 +7,7 @@ import Shop from './components/shop';
 import Basket from './components/basket';
 import Success from './components/success';
 import Cancel from './components/cancel';
+import Logout from './components/logout';
 // Redux
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
@@ -25,6 +26,7 @@ function App() {
           <Route path='/basket' component={Basket} />
           <Route path='/success' component={Success} />
           <Route path='/cancel' component={Cancel} />
+          <Route path='/logout' component={Logout} />
         </Switch>
       </Router>
     </Provider>

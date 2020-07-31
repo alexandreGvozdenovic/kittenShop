@@ -9,6 +9,7 @@ const stripePromise = loadStripe('pk_test_SxRbDOfbYdtVZE3lyuDPbqJT00BRRUnLAK');
 
 
 function Basket(props) {
+  const token = localStorage.getItem('token');
   var sumPrice = 0;
   console.log(props.kittensFromStore);
 
@@ -49,9 +50,9 @@ function Basket(props) {
 console.log(sumPrice);
 
 
-    // if(props.tokenFromStore === '') {
-    //     return(<Redirect to='/' />)
-    // }
+  if(token === '' || token === null) {
+    return(<Redirect to='/' />)
+  }
   return (
       <Container>
           <Nav />

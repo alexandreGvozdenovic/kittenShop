@@ -13,7 +13,6 @@ function Login(props) {
     const [signInPassword, setSignInPassword] = useState('');
     const [userExists, setUserExists] = useState(false);
     const [errors, setErrors] = useState('')
-
     const handleSignUp = async (e) => {
         e.preventDefault();
         const data = await fetch('/sign-up',{
@@ -25,6 +24,7 @@ function Login(props) {
         console.log(body);
         if(body.result === true) {
             await props.addToken(body.token)
+            localStorage.setItem('token',body.token);
             setUserExists(true)
         }
         if(body.error.length > 0) {
@@ -47,6 +47,7 @@ function Login(props) {
         console.log(body);
         if(body.result === true) {
             await props.addToken(body.token)
+            localStorage.setItem('token',body.token);
             setUserExists(true)
             
         }
