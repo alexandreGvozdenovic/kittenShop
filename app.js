@@ -21,7 +21,7 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'reactapp/build')));
 // PATH CONFIGURATION TO RESPOND TO A REQUEST TO STATIC ROUTE REQUEST BY SERVING index.html
-app.get('/*', function (req, res) {
+app.get('/success*', function (req, res) {
   res.sendFile(path.join(__dirname, 'reactapp/build', 'index.html'));
 });
 app.use('/', indexRouter);
