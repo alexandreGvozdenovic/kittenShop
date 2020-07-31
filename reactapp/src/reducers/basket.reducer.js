@@ -19,6 +19,8 @@ export default function(basket = [], action) {
       return basketCopy
     } else if(action.type === 'updateFromLocalStorage') {
       return action.basket
+    } else if(action.type === 'resetBasket') {
+      return []
     }
     else {
       return basket;

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom'
 import { Container, Row, Col, Form,  Button } from 'react-bootstrap';
 import '../style/css/login.css'
-import { connect } from 'react-redux'
 function Login() {
     
     const [firstName, setFirstName] = useState('');
@@ -22,7 +21,6 @@ function Login() {
             body: `firstNameFromFront=${firstName}&lastNameFromFront=${lastName}&emailFromFront=${signUpEmail}&passwordFromFront=${signUpPassword}`
         })
         const body = await data.json()
-        console.log(body);
         if(body.result === true) {
             localStorage.setItem('token',body.token);
             localStorage.setItem('basket',JSON.stringify(emptyBasket));
@@ -45,7 +43,6 @@ function Login() {
             body: `emailFromFront=${signInEmail}&passwordFromFront=${signInPassword}`
         })
         const body = await data.json()
-        console.log(body);
         if(body.result === true) {
             localStorage.setItem('token',body.token);
             localStorage.setItem('basket',JSON.stringify(emptyBasket));
@@ -67,7 +64,7 @@ function Login() {
 
   return (
       <Container className='d-flex flex-column justify-content-center main-container'>
-          <Row className='justify-content-center'>coucou</Row>
+          <Row className='justify-content-center'>KITTY SHOP</Row>
           <Row className='d-flex justify-content-around main-row'>
               {/* SIGN UP START */}
               <Col xs={{span:4}}>

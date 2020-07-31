@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import React  from 'react';
+import { Container, Row } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom'
 import Nav from './navbar';
 

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Table, Button } from 'react-bootstrap';
+import React from 'react';
+import { Container, Row, Table, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { loadStripe } from '@stripe/stripe-js';
 import Nav from './navbar';
-import '../style/css/basket.css'
 const stripePromise = loadStripe('pk_test_SxRbDOfbYdtVZE3lyuDPbqJT00BRRUnLAK');
 
 
@@ -12,7 +11,6 @@ function Basket(props) {
   const token = localStorage.getItem('token');
   const basket = JSON.parse(localStorage.getItem('basket'));
   var sumPrice = 0;
-  console.log(props.kittensFromStore);
 
   const handleClick = (id) => {
     // Remove kitty from Redux Store
@@ -33,8 +31,6 @@ function Basket(props) {
       body: `kittensFromFront=${kittens}`
   })
   const body = await data.json()
-  console.log(body);
-  console.log('Session ID ===>')
   const stripe = await stripePromise;
   const { error } = await stripe.redirectToCheckout({
     sessionId : body.id,
@@ -47,19 +43,26 @@ function Basket(props) {
     sumPrice += kitty.price;
     return(
       <tr>
-        <td><img src={kitty.imgUrl} width={128} /></td>
+        <td><img src={kitty.imgUrl} alt={kitty.name} width={128} /></td>
         <td className='align-middle'>{kitty.name}</td>
         <td className='align-middle'>{kitty.price}</td>
         <td className='align-middle'><i className="fas fa-times" style={{cursor: 'pointer'}} onClick={() => handleClick(kitty.id)}></i></td>
       </tr>
     )
 })
-console.log(sumPrice);
-
-
   if(token === '' || token === null) {
     return(<Redirect to='/' />)
   }
+  if(kittyBasket.length === 0) {
+    return (
+      <Container>
+        <Nav />
+        <Row>
+          No items in your basket
+        </Row>
+      </Container>
+    )
+  } else {
   return (
       <Container>
           <Nav />
@@ -82,8 +85,14 @@ console.log(sumPrice);
             </Table>
           </Row>
           <Row className='justify-content-end align-items-center'> Total Price: {sumPrice}€ <Button onClick={(e) => handleCheckout(e)}>Checkout</Button></Row>
+          <Row className='mt-4'>
+            <p>
+              If you want to try the checkout use <strong>4242424242424242</strong> as card number and whatever you want for email, dates, cvc and name.
+            </p>
+          </Row>
       </Container>
   );
+  }
 }
 
 function mapStateToProps(state) {

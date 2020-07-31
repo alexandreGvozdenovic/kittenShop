@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
 var kittensSchema = mongoose.Schema({
-    name: String,
-    age: String,
-    available: Boolean,
-    price: Number,
+  name: String,
+  age: String,
+  available: Boolean,
+  price: Number,
+  imgUrl: String,
   });
 
 var userSchema = mongoose.Schema({

@@ -5,6 +5,7 @@ var userModel = require('../models/users');
 var uid2 = require('uid2');
 var SHA256 = require('crypto-js/sha256');
 var encBase64 = require('crypto-js/enc-base64');
+const { use } = require('../../../../LaCapsule/lacapsule/project/bikeshop/part5/bikeshop/routes');
 const stripe = require('stripe')('sk_test_Rdz8xdBt5njp17ENWCDDTjxh005LCMv9UB');
 
 
@@ -16,7 +17,6 @@ router.get('/', async function(req, res, next) {
 // SIGN UP
 router.post('/sign-up', async function(req, res, next) {
 
-  console.log(req.body);
   var error = []
   var result = false
   var saveUser = null
@@ -72,7 +72,6 @@ router.post('/sign-up', async function(req, res, next) {
 // SIGN IN
 router.post('/sign-in', async function(req, res, next) {
 
-  console.log(req.body);
   var error = []
   var result = false
   var user = null
@@ -145,8 +144,24 @@ router.post('/buy', async function(req,res,next){
     success_url: 'http://localhost:3001/success?session_id={CHECKOUT_SESSION_ID}',
     cancel_url: 'http://localhost:3001/cancel',
   });
-  console.log(session);
   res.json(session);
+})
+
+// Add order to History
+router.post('/success', async function(req,res,next){
+  const basket = JSON.parse(req.body.basketFromFront);
+  var user = await userModel.findOne({token: req.body.tokenFromFront});
+  for(let i = 0 ; i < basket.length ; i++) {
+    await kittensModel.updateOne({_id: basket[i].id},{available: false});
+    user.orders.push(basket[i]);
+  }
+  await user.save();
+})
+
+// Load History
+router.get('/load-history', async function(req, res, next){
+  let user = await userModel.findOne({token: req.query.tokenFromFront});
+  res.json(user.orders);
 })
 
 module.exports = router;

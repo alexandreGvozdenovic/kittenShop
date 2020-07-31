@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom'
-import { connect } from 'react-redux'
 import Nav from './navbar';
 import Card from './card'
 
@@ -9,9 +8,6 @@ function Shop(props) {
 
     const [kittenArray, setKittenArray] = useState([]);
     const token = localStorage.getItem('token');
-    console.log(token);
-    const localStorageBasket = JSON.parse(localStorage.getItem('basket'));
-    console.log(localStorageBasket);
     useEffect(() => {
         var loadKittens = async () => {
             const data = await fetch('/load-kittens');
@@ -42,7 +38,11 @@ function Shop(props) {
   return (
       <Container>
           <Nav />
-          <Row>
+          <Row className='justify-content-center mt-4'>
+              <p className='text-center'>Welcome to the Kitty Shop this is a fake e-shop made by <a href='https://alexandregvozdenovic.com/' target='_blank' rel='noopener noreferrer'>me</a>.
+              <br/>Please think about adopting before buying pets !</p>
+          </Row>
+          <Row className='mt-4'>
               {cardsKitty}
           </Row>
       </Container>

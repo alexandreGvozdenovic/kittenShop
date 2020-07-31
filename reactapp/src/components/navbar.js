@@ -26,7 +26,10 @@ function NavBar(props) {
         <Link to='/shop'>Shop</Link>
       </Nav.Item>
       <Nav.Item>
-        <Link to='/basket'>Panier{props.kittenFromStore.length > 0 ? '(' + props.kittenFromStore.length + ')' : ''  }</Link>
+        <Link to='/basket'>Basket{props.kittenFromStore.length > 0 ? '(' + props.kittenFromStore.length + ')' : ''  }</Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Link to='/history'>History</Link>
       </Nav.Item>
       <Nav.Item>
         <Link to='/logout'>Logout</Link>

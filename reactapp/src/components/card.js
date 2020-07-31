@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
-import '../style/css/card.css'
 import { connect } from 'react-redux'
 function CardComponent(props) {
 
