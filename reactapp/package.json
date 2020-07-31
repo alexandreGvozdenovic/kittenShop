@@ -23,7 +23,6 @@
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:3000/",
-  "secure": false,
   "eslintConfig": {
     "extends": "react-app"
   },
