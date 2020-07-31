@@ -15,7 +15,6 @@ import { createStore, combineReducers } from 'redux'
 import basket from './reducers/basket.reducer'
 const store = createStore(combineReducers({basket}))
 
-
 function App() {
   return (
     <Provider store={store}>
@@ -24,8 +23,8 @@ function App() {
           <Route path='/' exact component={Login} />
           <Route path='/shop' component={Shop} />
           <Route path='/basket' component={Basket} />
-          <Route path='/success' component={Success} />
-          <Route path='/cancel' component={Cancel} />
+          <Route path='/stripe-success' component={Success} />
+          <Route path='/stripe-cancel' component={Cancel} />
           <Route path='/history' component={History}/>
           <Route path='/logout' component={Logout} />
         </Switch>

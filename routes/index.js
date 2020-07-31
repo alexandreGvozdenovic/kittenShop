@@ -140,14 +140,14 @@ router.post('/buy', async function(req,res,next){
     payment_method_types: ['card'],
     line_items: stripeItems,
     mode: 'payment',
-    success_url: 'https://kittyshop.herokuapp.com/success?session_id={CHECKOUT_SESSION_ID}',
-    cancel_url: 'https://kittyshop.herokuapp.com/cancel',
+    success_url: 'https://kittyshop.herokuapp.com/stripe-success?session_id={CHECKOUT_SESSION_ID}',
+    cancel_url: 'https://kittyshop.herokuapp.com/stripe-cancel',
   });
   res.json(session);
 })
 
 // Add order to History
-router.post('/success', async function(req,res,next){
+router.post('/stripe-success', async function(req,res,next){
   const basket = JSON.parse(req.body.basketFromFront);
   var user = await userModel.findOne({token: req.body.tokenFromFront});
   for(let i = 0 ; i < basket.length ; i++) {
