@@ -10,3 +10,5 @@ This a fake e-shop that I made to show what I am able to do with React, Express 
 ### Backend
 - Node.js (Express framework)
 - Mongo DB
+## Lien
+Lien vers le site : https://kittyshop.herokuapp.com/
