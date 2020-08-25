@@ -1,5 +1,5 @@
 # Kitty Shop
-This a fake e-shop that I made to show what I am able to do with React, Express and MongoDB
+E-Shop avec des chatons créé avec l'ensemble des compétences que j'ai acquis durant ma formation.
 ## Technologies utilisées
 ### Frontend
 - React Native (Expo)
